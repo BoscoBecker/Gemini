@@ -57,7 +57,7 @@ begin
   if (strKey <> '')and (Length(strKey) > 0) then
     SetKey(strKey);
   result:= self;
-  SetKeyLoaded(LoadEnv);
+  SetKeyLoaded(strKey);
 end;
 
 procedure TGemini.GeminiApiConnector;
@@ -75,9 +75,13 @@ function TGemini.GeminiModels: string;
 var
    modelos: TArray<string>;
    strModelo: string;
+  FullPath,
+  Path: string;
 begin
-  modelos := ObterModelos('caminho/do/arquivo.json');
-  Writeln('Lista de modelos:');
+   FUllPath:=  ExtractFilePath(ParamStr(0));
+   Path:= StringReplace(FullPath,'\Win32\Debug\','',[rfReplaceAll]);
+
+  modelos := ObterModelos(Path+'\src\Google\options.json');
   for var i := Low(modelos) to High(modelos) do
     strModelo:= strModelo +modelos[i] + ', ';
   SetModelos(strModelo);

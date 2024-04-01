@@ -15,17 +15,17 @@ type
       FKeyLoaded: string;
     private
       class var Gemini: TGemini;
-      function GeminiModels: string;
       function GetKey: string;
-      function GetResponse: string;
-      procedure SetResponse(const Value: string);
-      function LoadEnv: string;
       function GetChat: string;
+      function GetResponse: string;
+      function GetKeyLoaded: string;
+      function GeminiModels: string;
+      function LoadEnv: string;
+      procedure SetResponse(const Value: string);
       procedure SetKey(const value: string);
       procedure SetChat(const Value: string);
-    procedure SetKeyLoaded(const Value: string);
-    function GetKeyLoaded: string;
-    procedure SetModelos(const Value: string);
+      procedure SetKeyLoaded(const Value: string);
+      procedure SetModelos(const Value: string);
     public
       procedure GeminiApiConnector;
       procedure GenerativeModel(const model: string);
@@ -74,11 +74,14 @@ end;
 function TGemini.GeminiModels: string;
 var
    modelos: TArray<string>;
+   strModelo: string;
 begin
   modelos := ObterModelos('caminho/do/arquivo.json');
   Writeln('Lista de modelos:');
   for var i := Low(modelos) to High(modelos) do
-    result:= result +modelos[i] + ', ';
+    strModelo:= strModelo +modelos[i] + ', ';
+  SetModelos(strModelo);
+  result:= strModelo;
 end;
 
 function TGemini.GenerateContent: string;
@@ -158,7 +161,6 @@ function TGemini.ObterModelos(const caminhoArquivo: string): TArray<string>;
 var
   jsonArquivo: TJSONObject;
   modelosArray: TJSONArray;
-  i: Integer;
 begin
   // Carregar o conteúdo do arquivo JSON
   jsonArquivo := TJSONObject.ParseJSONValue(TFile.ReadAllText(caminhoArquivo)) as TJSONObject;
@@ -168,7 +170,7 @@ begin
     begin
       SetLength(Result, modelosArray.Count);
       // Iterar sobre os elementos do array e armazená-los na lista de resultados
-      for i := 0 to modelosArray.Count - 1 do
+      for var i := 0 to modelosArray.Count - 1 do
         Result[i] := modelosArray.Items[i].Value;
     end
     else
