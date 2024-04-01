@@ -27,5 +27,5 @@ begin
    .GenerateContent  
   End;
 
-![image](https://github.com/BoscoBecker/Gemini/assets/6303278/ce764461-8965-4893-83b5-f9451245c3ab)
+![image](/src/imagem/final_open_graph_L0PRwHT.width-1300.png)
 
