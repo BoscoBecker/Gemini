@@ -2,7 +2,7 @@
 
 modelo: gemini-pro
 
-Se nãpo usar .env
+Se não usar .env
 ```pas
 var
   Gemini: TGemini;
