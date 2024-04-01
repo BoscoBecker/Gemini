@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2024/02/04 18:10:15.000.438,=C:\Users\Usuário\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/02/16 19:58:27.000.315,=C:\Users\Usuário\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/02/16 19:59:55.000.370,=C:\Users\Usuário\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/02/26 23:32:46.000.762,=C:\Users\Usuário\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/03/31 16:31:06.000.639,=C:\Users\Usuário\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/03/31 16:31:19.000.514,=C:\Users\Usuário\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/03/31 16:32:25.000.117,D:\Projetos\Delphi\Gemini\src\view\UPrompt.dfm=C:\Users\Usuário\Documents\Embarcadero\Studio\Projects\Unit1.dfm</Transaction>
+    <Transaction>2024/03/31 16:32:25.000.117,D:\Projetos\Delphi\Gemini\src\view\UPrompt.pas=C:\Users\Usuário\Documents\Embarcadero\Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>2024/03/31 16:32:55.000.830,D:\Projetos\Delphi\Gemini\src\Classes\Classe.Gemini.pas=C:\Users\Usuário\Documents\Embarcadero\Studio\Projects\Unit2.pas</Transaction>
+    <Transaction>2024/03/31 16:33:09.000.243,D:\Projetos\Delphi\Gemini\PromptGemini.dproj=C:\Users\Usuário\Documents\Embarcadero\Studio\Projects\Project1.dproj</Transaction>
+    <Transaction>2024/03/31 16:37:25.000.802,=D:\Projetos\Delphi\Gemini\src\Google\options.json</Transaction>
+    <Transaction>2024/03/31 16:54:45.000.909,=D:\Projetos\Delphi\Gemini\env</Transaction>
+    <Transaction>2024/03/31 16:55:33.000.143,=</Transaction>
+    <Transaction>2024/03/31 17:53:09.000.048,=D:\Projetos\Delphi\Gemini\Unit1.pas</Transaction>
+    <Transaction>2024/03/31 17:53:23.000.253,D:\Projetos\Delphi\Gemini\Unit1.pas=D:\Projetos\Delphi\Gemini\src\Request\Classe.Request.pas</Transaction>
+    <Transaction>2024/03/31 18:07:03.000.262,=D:\Projetos\Delphi\Gemini\Unit1.pas</Transaction>
+    <Transaction>2024/03/31 18:10:40.000.868,D:\Projetos\Delphi\Gemini\Unit1.pas=D:\Projetos\Delphi\Gemini\src\Encoding\Classe.Encoding.pas</Transaction>
+    <Transaction>2024/04/01 05:05:53.153,D:\Projetos\Delphi\Gemini\src\Encoding\Classe.Encoding.pas=</Transaction>
+  </Transactions>
+</BorlandProject>

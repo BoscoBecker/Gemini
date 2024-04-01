@@ -1,0 +1,222 @@
+unit Classe.Gemini;
+
+interface
+
+uses System.SysUtils, System.JSON, System.IOUtils, System.Classes;
+
+
+type
+  TGemini = class
+    strict private
+      FKey: string;
+      FChat: string;
+      FModelos: string;
+      FResponse: string;
+      FKeyLoaded: string;
+    private
+      class var Gemini: TGemini;
+      function GetKey: string;
+      function GetChat: string;
+      function GetResponse: string;
+      function GetKeyLoaded: string;
+      function GeminiModels: string;
+      function LoadEnv: string;
+  procedure SetResponse(const Value: string);
+      procedure SetKey(const value: string);
+      procedure SetChat(const Value: string);
+      procedure SetKeyLoaded(const Value: string);
+      procedure SetModelos(const Value: string);
+    public
+      procedure GeminiApiConnector;
+      procedure GenerativeModel(const model: string);
+      function GeminiChat:TGemini;
+      function SetChatValue(const Value: string): TGemini;
+      function SetKeyValue(const Value: string): TGemini;
+      function GenerateContent: string;
+      function ObterModelos(const caminhoArquivo: string): TArray<string>;
+      function Configure :TGemini;
+      class function GetInstancia: TGemini;
+      property KeyLoaded: string read GetKeyLoaded write SetKeyLoaded;
+      property Key: string read GetKey write SetKey;
+      property Chat: string read GetChat write SetChat;
+      property Response: string read GetResponse write SetResponse;
+      property Modelos: string read FModelos write SetModelos;
+  end;
+
+
+implementation
+
+uses
+  Vcl.Dialogs, system.Threading, Classe.Request;
+
+{ TGemini }
+
+function TGemini.Configure: TGemini;
+begin
+  var strKey := LoadEnv;
+  if (strKey <> '')and (Length(strKey) > 0) then
+    SetKey(strKey);
+  result:= self;
+  SetKeyLoaded(LoadEnv);
+end;
+
+procedure TGemini.GeminiApiConnector;
+begin
+
+
+end;
+
+function TGemini.GeminiChat: TGemini;
+begin
+
+end;
+
+function TGemini.GeminiModels: string;
+var
+   modelos: TArray<string>;
+begin
+  modelos := ObterModelos('caminho/do/arquivo.json');
+  Writeln('Lista de modelos:');
+  for var i := Low(modelos) to High(modelos) do
+    result:= result +modelos[i] + ', ';
+end;
+
+function TGemini.GenerateContent: string;
+begin
+  result:= TRequest
+             .Request(GetKeyLoaded,GetChat);
+end;
+
+procedure TGemini.GenerativeModel(const model: string);
+begin
+
+end;
+
+function TGemini.GetChat: string;
+begin
+  result:= FChat;
+end;
+
+class function TGemini.GetInstancia: TGemini;
+begin
+  if not Assigned(Gemini) then
+    Gemini:= TGemini.Create;
+  result:= Gemini;
+end;
+
+function TGemini.GetKey: string;
+begin
+  result:= FKey;
+end;
+
+function TGemini.GetKeyLoaded: string;
+begin
+  Result:= FKeyLoaded;
+end;
+
+function TGemini.GetResponse: string;
+begin
+  result:= FResponse;
+end;
+
+function TGemini.LoadEnv: string;
+var
+ dotENV: TextFile;
+ value: string;
+
+function GetENV: string;
+var
+  FullPath,
+  Path: string;
+begin
+   FUllPath:=  ExtractFilePath(ParamStr(0));
+   Path:= StringReplace(FullPath,'\Win32\Debug\','',[rfReplaceAll]);
+   Path:= Path + '\.env';
+   result:= path;
+end;
+
+begin
+    result:= EmptyStr;
+    AssignFile(dotENV, GetENV);
+    {$I-}
+      Reset(dotENV);
+    {$I+}
+    if (IOResult <> 0) then
+      raise Exception.Create('Erro na abertura do arquivo !!!')else
+    begin
+      while (not eof(dotENV)) do
+      begin
+        readln(dotENV, value);
+        value:= StringReplace(value ,'KEY=','',[rfReplaceAll]);
+      end;
+      CloseFile(dotENV);
+      result:= value;
+    end;
+end;
+
+function TGemini.ObterModelos(const caminhoArquivo: string): TArray<string>;
+var
+  jsonArquivo: TJSONObject;
+  modelosArray: TJSONArray;
+  i: Integer;
+begin
+  // Carregar o conteúdo do arquivo JSON
+  jsonArquivo := TJSONObject.ParseJSONValue(TFile.ReadAllText(caminhoArquivo)) as TJSONObject;
+  try
+    // Verificar se a chave "models" existe
+    if jsonArquivo.TryGetValue<TJSONArray>('models', modelosArray) then
+    begin
+      SetLength(Result, modelosArray.Count);
+      // Iterar sobre os elementos do array e armazená-los na lista de resultados
+      for i := 0 to modelosArray.Count - 1 do
+        Result[i] := modelosArray.Items[i].Value;
+    end
+    else
+    begin
+      // Se a chave "models" não existe, retornar um array vazio
+      SetLength(Result, 0);
+    end;
+  finally
+    jsonArquivo.Free;
+  end;
+
+end;
+
+procedure TGemini.SetChat(const Value: string);
+begin
+  FChat:= Value;
+end;
+
+function TGemini.SetChatValue(const Value: string): TGemini;
+begin
+  FChat:= Value;
+  result:= self;
+end;
+
+procedure TGemini.SetKey(const value: string);
+begin
+  FKey := Value;
+end;
+
+procedure TGemini.SetKeyLoaded(const Value: string);
+begin
+  FKeyLoaded := Value;
+end;
+
+function TGemini.SetKeyValue(const Value: string): TGemini;
+begin
+  FKey:= value;
+  result:= self;
+end;
+
+procedure TGemini.SetModelos(const Value: string);
+begin
+  FModelos := Value;
+end;
+
+procedure TGemini.SetResponse(const Value: string);
+begin
+  FResponse := Value;
+end;
+
+end.

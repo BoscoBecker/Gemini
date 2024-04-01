@@ -1,0 +1,53 @@
+unit Classe.Encoding;
+
+interface
+
+uses  System.NetEncoding, IdGlobal, IdHMAC;
+
+
+function CalcHMACSHA384Base64(const key, dados: string): string;
+
+implementation
+
+
+function CalcHMACSHA384Base64(const key, dados: string): string;
+var
+  InnerPad, OuterPad, Data, InnerHash, OuterData: TBytes;
+  i: Integer;
+  SHA384: THashSHA2.TSHA2Version;
+begin
+  // Converte a chave secreta e os dados para arrays de bytes
+  Key := TEncoding.UTF8.GetBytes(chaveSecreta);
+  Data := TEncoding.UTF8.GetBytes(dados);
+
+  // Verifica se a chave é maior que o tamanho do bloco
+  if Length(Key) > 128 then
+  begin
+    SHA384 := THashSHA2.TSHA2Version.SHA384;
+    SetLength(Key, THashSHA2.GetHashSize(SHA384));
+  end;
+
+  // Preenche a chave com zeros se for menor que o tamanho do bloco
+  if Length(Key) < 128 then
+    SetLength(Key, 128);
+
+  // Aplica as máscaras internas e externas
+  InnerPad := Key;
+  OuterPad := Key;
+  for i := Low(Key) to High(Key) do
+  begin
+    InnerPad[i] := InnerPad[i] xor $36;
+    OuterPad[i] := OuterPad[i] xor $5C;
+  end;
+
+  // Calcula o hash interno
+  InnerHash := THashSHA2.GetHMAC(SHA384, InnerPad + Data).GetBytes;
+
+  // Calcula o hash externo
+  OuterData := THashSHA2.GetHMAC(SHA384, OuterPad + InnerHash).GetBytes;
+
+  // Converte o hash externo para uma string Base64
+  Result := TBase64Encoding.Base64.EncodeBytesToString(OuterData);
+end;
+
+end.

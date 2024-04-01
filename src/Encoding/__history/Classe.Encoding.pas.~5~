@@ -1,0 +1,38 @@
+unit Classe.Encoding;
+
+interface
+
+uses  System.NetEncoding, IdGlobal, IdHMAC,IdSSLOpenSSL, IdHMACSHA1;
+
+
+function CalcHMACSHA384Base64(const key, dados: string): string;
+
+implementation
+
+uses
+  System.SysUtils;
+
+
+function CalcHMACSHA384Base64(const key, dados: string): string;
+var
+  HMAC: TIdHMACSHA384;
+  HashBytes: TBytes;
+  IdBytes: TIdBytes;
+begin
+  HMAC := TIdHMACSHA384.Create;
+  try
+    // Define a chave secreta
+    SetLength(IdBytes, Length(key));
+    Move(key[1], IdBytes[0], Length(key));
+    HMAC.Key := IdBytes;
+
+    // Calcula o HMAC-SHA384
+    HashBytes := HMAC.HashValue(TEncoding.UTF8.GetBytes(dados));
+
+    // Converte os bytes do hash para uma string Base64
+    Result := TBase64Encoding.Base64.EncodeBytesToString(HashBytes);
+  finally
+    HMAC.Free;
+  end;
+
+end.
