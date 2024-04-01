@@ -2,6 +2,12 @@
 
 modelo: gemini-pro
 
+Criar um arquivo.evn na raiz do projeto
+
+```pas
+KEY=YOURKEY
+ ```
+
 Se não usar .env
 ```pas
 var
@@ -26,3 +32,6 @@ begin
      .SetChatValue(Memo1.Lines.Text)
    .GenerateContent  
   End;
+
+
+From https://gemini.google.com/?hl=pt-PT
