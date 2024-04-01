@@ -17,7 +17,7 @@ type
 implementation
 
 uses  REST.Client, REST.Types,
-     System.Classes, System.SysUtils, Classe.Encoding, System.JSON;
+     System.Classes, System.SysUtils, System.JSON, dialogs;
 
 
 class function TRequest.GetResponseFromJson(value: string): string;
@@ -66,9 +66,6 @@ begin
     JSONObject.Free;
   end;
 end;
-end;
-
-end;
 
 class function TRequest.Request(key, chatquestion: string): string;
 var
@@ -83,11 +80,12 @@ begin
     RESTClient.BaseURL := 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key='+key;
     RESTRequest.Client := RESTClient;
     RESTRequest.Response := RESTResponse;
+    RESTRequest.ContentType.ctAPPLICATION_JSON;
     RESTRequest.Method := rmPOST;
     RESTRequest.AddBody(GetJson(chatquestion), ctAPPLICATION_JSON);
     RESTRequest.Execute;
     if RESTResponse.StatusCode = 200 then
-      result:= GetResponseFromJson(RESTResponse.JsonText);
+      result:= GetResponseFromJson(RESTResponse.JsonText)
     else
       result:= 'Não foi possível consultar';
   finally
@@ -100,27 +98,62 @@ end;
 
 
 class function TRequest.GetJson(const value: string): string;
+//begin
+//  result:=
+//    '    {'+
+//    '  "contents": ['+
+//    '    {            '+
+//    '      "role": "USER", '+
+//    '      "parts": { "text": "'+value+'" }'+
+//    '    }  ],                                '+
+//    '  "safety_settings": {                     '+
+//    '    "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",'+
+//    '    "threshold": "BLOCK_LOW_AND_ABOVE"              '+
+//    '  },'+
+//    '  "generation_config": {'+
+//    '    "temperature": 0.2,'+
+//    '    "topP": 0.8,'+
+//    '    "topK": 40,'+
+//    '    "maxOutputTokens": 500,'+
+//    '  }'+
+//    '}';
+var
+  JSONObject, Parts: TJSONObject;
+  Contents, SafetySettings, GenerationConfig: TJSONArray;
+  TextValue: string;
 begin
-  result:=
-    '    {'+
-    '  "contents": ['+
-    '    {            '+
-    '      "role": "USER", '+
-    '      "parts": { "text": "'+value+'" }'+
-    '    }  ],                                '+
-    '  "safety_settings": {                     '+
-    '    "category": "HARM_CATEGORY_SEXUALLY_EXPLICIT",'+
-    '    "threshold": "BLOCK_LOW_AND_ABOVE"              '+
-    '  },'+
-    '  "generation_config": {'+
-    '    "temperature": 0.2,'+
-    '    "topP": 0.8,'+
-    '    "topK": 40,'+
-    '    "maxOutputTokens": 200,'+
-    '  }'+
-    '}';
+  // Cria o objeto JSON principal
+  JSONObject := TJSONObject.Create;
+
+  // Cria o array "contents"
+  Contents := TJSONArray.Create;
+  JSONObject.AddPair('contents', Contents);
+
+  // Cria um objeto JSON para o primeiro item de "contents"
+  Parts := TJSONObject.Create;
+  Parts.AddPair('text', 'oi' + sLineBreak);
+  Contents.Add(TJSONObject.Create.AddPair('role', 'USER').AddPair('parts', Parts));
+
+  // Cria o objeto "safety_settings"
+  SafetySettings := TJSONArray.Create;
+  JSONObject.AddPair('safety_settings', SafetySettings);
+
+  // Adiciona os campos ao objeto "safety_settings"
+  SafetySettings.Add(TJSONObject.Create.AddPair('category', 'HARM_CATEGORY_SEXUALLY_EXPLICIT')
+                                      .AddPair('threshold', 'BLOCK_LOW_AND_ABOVE'));
+
+  // Cria o objeto "generation_config"
+  GenerationConfig := TJSONArray.Create;
+  JSONObject.AddPair('generation_config', GenerationConfig);
+
+  // Adiciona os campos ao objeto "generation_config"
+  GenerationConfig.Add(TJSONObject.Create.AddPair('temperature', 0.2)
+                                         .AddPair('topP', 0.8)
+                                         .AddPair('topK', 40)
+                                         .AddPair('maxOutputTokens', 500));
+
+  // Exibe o JSON gerado
+  result:= JSONObject.ToString;
 end;
-
-
 
 end.

@@ -15,9 +15,11 @@ type
     Memo2: TMemo;
     Image1: TImage;
     Animate: TActivityIndicator;
+    Button2: TButton;
     procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
   private
-    { Private declarations }
+    function AddMensagem: string;
   public
     { Public declarations }
   end;
@@ -29,25 +31,37 @@ implementation
 
 {$R *.dfm}
 
+function TForm1.AddMensagem: string;
+begin
+  result:=
+    'Você: '+ Memo1.Lines.Text+
+    #13+#10+
+    'Gemini: ';
+end;
+
 procedure TForm1.Button1Click(Sender: TObject);
 var
   Gemini: TGemini;
 begin
   Animate.Animate:= True;
+  Animate.Repaint;
   Try
     Memo2.Lines.Add(
-      'me: '+ Memo1.Lines.Text+
-      sLineBreak+
-      'Gemini: '+
+      AddMensagem+
       Gemini.GetInstancia
         .Configure
-        .SetKeyValue('AIzaSyBKaVBMVejmSX9EFb72fhKFfPO6plptXpo')
+        .SetKeyValue('')
         .SetChatValue(Memo1.Lines.Text)
         .GenerateContent)
   Finally
     Memo1.Lines.Clear;
     Animate.Animate:= False;
   End;
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+  Memo2.Clear;
 end;
 
 end.

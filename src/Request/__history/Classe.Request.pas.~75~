@@ -17,7 +17,7 @@ type
 implementation
 
 uses  REST.Client, REST.Types,
-     System.Classes, System.SysUtils, Classe.Encoding, System.JSON;
+     System.Classes, System.SysUtils, System.JSON;
 
 
 class function TRequest.GetResponseFromJson(value: string): string;
@@ -80,6 +80,7 @@ begin
     RESTClient.BaseURL := 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key='+key;
     RESTRequest.Client := RESTClient;
     RESTRequest.Response := RESTResponse;
+    RESTRequest.ContentType.ctAPPLICATION_JSON;
     RESTRequest.Method := rmPOST;
     RESTRequest.AddBody(GetJson(chatquestion), ctAPPLICATION_JSON);
     RESTRequest.Execute;

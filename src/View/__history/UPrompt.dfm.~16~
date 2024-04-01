@@ -2,8 +2,8 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Use the Gemini chat'
-  ClientHeight = 636
-  ClientWidth = 995
+  ClientHeight = 605
+  ClientWidth = 909
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -13,11 +13,12 @@ object Form1: TForm1
   Position = poScreenCenter
   TextHeight = 15
   object Image1: TImage
-    Left = -56
-    Top = 8
-    Width = 1049
-    Height = 690
-    Align = alCustom
+    Left = 0
+    Top = 0
+    Width = 909
+    Height = 605
+    Align = alClient
+    Center = True
     Picture.Data = {
       0954506E67496D61676589504E470D0A1A0A0000000D49484452000004B00000
       027308060000001F8DEAEF0000FFFF4944415478DAEC5D8B96ECA6AE14F9FF6F
@@ -14503,18 +14504,21 @@ object Form1: TForm1
       898B052C77FD7E3163FB710CA8A3D5BA2E5C7D8CE25B6FF94BF34F58F8BA666A
       E752DD3B11F36DF6FE878B5CFF83D7FF03153846BE88D4CEA60000000049454E
       44AE426082}
+    ExplicitLeft = 192
+    ExplicitTop = 248
+    ExplicitWidth = 105
+    ExplicitHeight = 105
   end
   object Memo1: TMemo
-    Left = 17
-    Top = 23
-    Width = 952
+    Left = 8
+    Top = 16
+    Width = 889
     Height = 129
-    BorderStyle = bsNone
     TabOrder = 0
   end
   object Button1: TButton
-    Left = 894
-    Top = 158
+    Left = 822
+    Top = 151
     Width = 75
     Height = 25
     Caption = 'Pergunte'
@@ -14523,24 +14527,23 @@ object Form1: TForm1
     OnClick = Button1Click
   end
   object Memo2: TMemo
-    Left = 17
-    Top = 400
-    Width = 952
-    Height = 189
-    BorderStyle = bsNone
+    Left = 8
+    Top = 312
+    Width = 889
+    Height = 285
     ReadOnly = True
     ScrollBars = ssBoth
     TabOrder = 2
   end
   object Animate: TActivityIndicator
-    Left = 864
-    Top = 223
+    Left = 712
+    Top = 215
     IndicatorColor = aicWhite
     IndicatorSize = aisXLarge
   end
   object Button2: TButton
-    Left = 894
-    Top = 603
+    Left = 822
+    Top = 281
     Width = 75
     Height = 25
     Caption = 'Limpar'

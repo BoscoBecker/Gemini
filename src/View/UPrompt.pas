@@ -44,6 +44,7 @@ var
   Gemini: TGemini;
 begin
   Animate.Animate:= True;
+  Animate.Repaint;
   Try
     Memo2.Lines.Add(
       AddMensagem+
@@ -51,7 +52,8 @@ begin
         .Configure
         .SetKeyValue('')
         .SetChatValue(Memo1.Lines.Text)
-        .GenerateContent)
+        .GenerateContent);
+    Application.ProcessMessages;
   Finally
     Memo1.Lines.Clear;
     Animate.Animate:= False;

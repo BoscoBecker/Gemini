@@ -17,7 +17,7 @@ type
 implementation
 
 uses  REST.Client, REST.Types,
-     System.Classes, System.SysUtils, System.JSON;
+     System.Classes, System.SysUtils, System.JSON, dialogs;
 
 
 class function TRequest.GetResponseFromJson(value: string): string;
@@ -117,8 +117,7 @@ begin
     '    "maxOutputTokens": 500,'+
     '  }'+
     '}';
+
 end;
-
-
 
 end.

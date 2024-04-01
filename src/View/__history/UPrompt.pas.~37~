@@ -35,7 +35,7 @@ function TForm1.AddMensagem: string;
 begin
   result:=
     'Você: '+ Memo1.Lines.Text+
-    ' ' +
+    #13+#10+
     'Gemini: ';
 end;
 
@@ -49,7 +49,7 @@ begin
       AddMensagem+
       Gemini.GetInstancia
         .Configure
-        .SetKeyValue('AIzaSyBKaVBMVejmSX9EFb72fhKFfPO6plptXpo')
+        .SetKeyValue('')
         .SetChatValue(Memo1.Lines.Text)
         .GenerateContent)
   Finally

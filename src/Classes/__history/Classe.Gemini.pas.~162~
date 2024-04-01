@@ -57,7 +57,7 @@ begin
   if (strKey <> '')and (Length(strKey) > 0) then
     SetKey(strKey);
   result:= self;
-  SetKeyLoaded(LoadEnv);
+  SetKeyLoaded(strKey);
 end;
 
 procedure TGemini.GeminiApiConnector;
@@ -74,11 +74,18 @@ end;
 function TGemini.GeminiModels: string;
 var
    modelos: TArray<string>;
+   strModelo: string;
+  FullPath,
+  Path: string;
 begin
-  modelos := ObterModelos('caminho/do/arquivo.json');
-  Writeln('Lista de modelos:');
+   FUllPath:=  ExtractFilePath(ParamStr(0));
+   Path:= StringReplace(FullPath,'\Win32\Debug\','',[rfReplaceAll]);
+
+  modelos := ObterModelos(Path+'\src\Google\options.json');
   for var i := Low(modelos) to High(modelos) do
-    result:= result +modelos[i] + ', ';
+    strModelo:= strModelo +modelos[i] + ', ';
+  SetModelos(strModelo);
+  result:= strModelo;
 end;
 
 function TGemini.GenerateContent: string;
@@ -158,7 +165,6 @@ function TGemini.ObterModelos(const caminhoArquivo: string): TArray<string>;
 var
   jsonArquivo: TJSONObject;
   modelosArray: TJSONArray;
-  i: Integer;
 begin
   // Carregar o conteúdo do arquivo JSON
   jsonArquivo := TJSONObject.ParseJSONValue(TFile.ReadAllText(caminhoArquivo)) as TJSONObject;
@@ -168,7 +174,7 @@ begin
     begin
       SetLength(Result, modelosArray.Count);
       // Iterar sobre os elementos do array e armazená-los na lista de resultados
-      for i := 0 to modelosArray.Count - 1 do
+      for var i := 0 to modelosArray.Count - 1 do
         Result[i] := modelosArray.Items[i].Value;
     end
     else

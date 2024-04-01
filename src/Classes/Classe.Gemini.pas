@@ -89,9 +89,16 @@ begin
 end;
 
 function TGemini.GenerateContent: string;
+var
+  str: string;
 begin
-  result:= TRequest
-             .Request(GetKeyLoaded,GetChat);
+  TThread.Queue(nil, procedure
+  begin
+    str:= TRequest
+               .Request(GetKeyLoaded,GetChat);
+
+  end);
+  result:= str;
 end;
 
 procedure TGemini.GenerativeModel(const model: string);
