@@ -1,0 +1,84 @@
+unit UPrompt;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs,Classe.Gemini, Vcl.StdCtrls,
+  System.Net.URLClient, System.Net.HttpClient, System.Net.HttpClientComponent,
+  Data.Bind.Components, Vcl.WinXCtrls, Vcl.Imaging.pngimage, Vcl.ExtCtrls;
+
+type
+  TForm1 = class(TForm)
+    Image1: TImage;
+    Button2: TButton;
+    Label1: TLabel;
+    Image2: TImage;
+    Memo2: TMemo;
+    edtQuestion: TEdit;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    lblData: TLabel;
+    procedure Button1Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure edtQuestionKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+  private
+  public
+    procedure GenerateChatGemini;
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.dfm}
+
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+  GenerateChatGemini;
+end;
+
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+  Memo2.Clear;
+end;
+
+procedure TForm1.edtQuestionKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if key = VK_RETURN then GenerateChatGemini;
+
+end;
+
+procedure TForm1.FormShow(Sender: TObject);
+begin
+  lblData.Caption:= FormatDateTime('DD/MM/YYYY',Now());
+end;
+
+procedure TForm1.GenerateChatGemini;
+begin
+  TThread.Queue(nil,procedure
+  var
+    Gemini: TGemini;
+    LRespostaChat: String;
+  begin
+    LRespostaChat:= Gemini.GetInstancia
+                          .SetKeyValue('')
+                          .SetChatValue(edtQuestion.Text)
+                          .GenerateContent;
+
+  end);
+  Try
+    Memo2.Lines.Add(LRespostaChat);
+  Finally
+    edtQuestion.Clear;
+    edtQuestion.SetFocus;
+  End;
+end;
+
+end.

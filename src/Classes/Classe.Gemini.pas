@@ -36,6 +36,7 @@ type
       function ObterModelos(const caminhoArquivo: string): TArray<string>;
       function Configure :TGemini;
       class function GetInstancia: TGemini;
+      destructor Destroy; override;
       property KeyLoaded: string read GetKeyLoaded write SetKeyLoaded;
       property Key: string read GetKey write SetKey;
       property Chat: string read GetChat write SetChat;
@@ -58,6 +59,11 @@ begin
     SetKey(strKey);
   result:= self;
   SetKeyLoaded(strKey);
+end;
+
+destructor TGemini.Destroy;
+begin
+  inherited;
 end;
 
 procedure TGemini.GeminiApiConnector;
@@ -92,13 +98,16 @@ function TGemini.GenerateContent: string;
 var
   str: string;
 begin
+  if GetChat = '' then Exit;
+
   TThread.Queue(nil, procedure
   begin
     str:= TRequest
                .Request(GetKeyLoaded,GetChat);
 
   end);
-  result:= str;
+  result:= 'Você : '+GetChat+#13#10 +
+           'Geminini: '+ str;
 end;
 
 procedure TGemini.GenerativeModel(const model: string);
@@ -125,7 +134,10 @@ end;
 
 function TGemini.GetKeyLoaded: string;
 begin
-  Result:= FKeyLoaded;
+  if FKeyLoaded=  '' then
+    result:= LoadEnv
+  else
+    Result:= FKeyLoaded;
 end;
 
 function TGemini.GetResponse: string;
@@ -162,6 +174,7 @@ begin
       begin
         readln(dotENV, value);
         value:= StringReplace(value ,'KEY=','',[rfReplaceAll]);
+        Break;
       end;
       CloseFile(dotENV);
       result:= value;
@@ -233,3 +246,9 @@ begin
 end;
 
 end.
+
+initialization
+
+finalization
+  if Assigned(Gemini) then FreeAndNIl(Gemini);
+

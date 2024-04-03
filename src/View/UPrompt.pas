@@ -10,18 +10,24 @@ uses
 
 type
   TForm1 = class(TForm)
-    Memo1: TMemo;
-    Button1: TButton;
-    Memo2: TMemo;
     Image1: TImage;
-    Animate: TActivityIndicator;
     Button2: TButton;
+    Label1: TLabel;
+    Image2: TImage;
+    Memo2: TMemo;
+    edtQuestion: TEdit;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    lblData: TLabel;
     procedure Button1Click(Sender: TObject);
     procedure Button2Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure edtQuestionKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
   private
-    function AddMensagem: string;
   public
-    { Public declarations }
+    procedure GenerateChatGemini;
   end;
 
 var
@@ -31,38 +37,44 @@ implementation
 
 {$R *.dfm}
 
-function TForm1.AddMensagem: string;
-begin
-  result:=
-    'Você: '+ Memo1.Lines.Text+
-    #13+#10+
-    'Gemini: ';
-end;
 
 procedure TForm1.Button1Click(Sender: TObject);
-var
-  Gemini: TGemini;
 begin
-  Animate.Animate:= True;
-  Animate.Repaint;
-  Try
-    Memo2.Lines.Add(
-      AddMensagem+
-      Gemini.GetInstancia
-        .Configure
-        .SetKeyValue('')
-        .SetChatValue(Memo1.Lines.Text)
-        .GenerateContent);
-    Application.ProcessMessages;
-  Finally
-    Memo1.Lines.Clear;
-    Animate.Animate:= False;
-  End;
+  GenerateChatGemini;
 end;
 
 procedure TForm1.Button2Click(Sender: TObject);
 begin
   Memo2.Clear;
+end;
+
+procedure TForm1.edtQuestionKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if key = VK_RETURN then GenerateChatGemini;
+
+end;
+
+procedure TForm1.FormShow(Sender: TObject);
+begin
+  lblData.Caption:= FormatDateTime('DD/MM/YYYY',Now());
+end;
+
+procedure TForm1.GenerateChatGemini;
+var
+  Gemini: TGemini;
+  LRespostaChat: String;
+begin
+  Try
+    LRespostaChat:= Gemini.GetInstancia
+                          .SetKeyValue('')
+                          .SetChatValue(edtQuestion.Text)
+                          .GenerateContent;
+    Memo2.Lines.Add(LRespostaChat);
+  Finally
+    edtQuestion.Clear;
+    edtQuestion.SetFocus;
+  End;
 end;
 
 end.

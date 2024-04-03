@@ -77,7 +77,7 @@ begin
   RESTRequest := TRESTRequest.Create(nil);
   RESTResponse := TRESTResponse.Create(nil);
   try
-    RESTClient.BaseURL := 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key='+key;
+    RESTClient.BaseURL := 'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key= ' + key;
     RESTRequest.Client := RESTClient;
     RESTRequest.Response := RESTResponse;
     RESTRequest.ContentType.ctAPPLICATION_JSON;
