@@ -1,5 +1,8 @@
 ## Chat with Gemini
 
+![image](https://github.com/BoscoBecker/Gemini/assets/6303278/8c787c5c-ffc3-4ca7-85c1-d690bd063798)
+
+
 modelo: gemini-pro
 
 Criar um arquivo.evn na raiz do projeto
