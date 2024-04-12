@@ -5,7 +5,7 @@
 
 modelo: gemini-pro
 
-Criar um arquivo.evn na raiz do projeto
+Criar um arquivo .env na raiz do projeto
 
 ```pas
 KEY=YOURKEY
